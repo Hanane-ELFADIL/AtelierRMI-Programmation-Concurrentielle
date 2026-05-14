@@ -8,21 +8,29 @@ public class EchoClient {
 
         try {
 
-            // URL du service distant
-            String url = "rmi://localhost/EchoService";
+            Echo service = (Echo) Naming.lookup(
+                    "rmi://localhost/EchoService"
+            );
 
-            // Récupération de l'objet distant
-            Echo echoService = (Echo) Naming.lookup(url);
+            // Test echo
+            String rep = service.echo("Bonjour");
 
-            // Appel distant
-            String reponse = echoService.echo("Bonjour serveur RMI");
+            System.out.println(rep);
 
-            // Affichage
-            System.out.println("Réponse du serveur : " + reponse);
+            // Test length
+            int taille = service.length("Bonjour");
+
+            System.out.println("Longueur : " + taille);
+
+            // Test objet Message
+            Message msg = new Message("Test objet");
+
+            Message reponse =
+                    service.traiterMessage(msg);
+
+            System.out.println(reponse.getContenu());
 
         } catch (Exception e) {
-
-            System.err.println("Erreur Client RMI : " + e.getMessage());
 
             e.printStackTrace();
         }
