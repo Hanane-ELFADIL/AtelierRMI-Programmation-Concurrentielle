@@ -12,8 +12,21 @@ public class EchoImpl extends UnicastRemoteObject implements Echo {
     @Override
     public String echo(String msg) throws RemoteException {
 
-        System.out.println("Message reçu : " + msg);
-
         return "[Serveur RMI] Recu : " + msg;
+    }
+
+    @Override
+    public int length(String msg) throws RemoteException {
+
+        return msg.length();
+    }
+
+    @Override
+    public Message traiterMessage(Message msg)
+            throws RemoteException {
+
+        return new Message(
+                "[Serveur] Message reçu : " + msg.getContenu()
+        );
     }
 }
